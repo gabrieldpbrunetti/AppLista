@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">AppLista</string>
+    <string name="et_titulo">Título</string>
+    <string name="et_descricao">Descrição</string>
+    <string name="btn_adicionar">Adicionar Item</string>
+</resources>
