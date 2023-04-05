@@ -65,7 +65,7 @@ public class NewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent photoPickerIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                photoPickerIntent.setType("image/");
+                photoPickerIntent.setType("image/*");
                 startActivityForResult(photoPickerIntent, PHOTO_PICKER_REQUEST);
             }
         });
@@ -86,4 +86,5 @@ public class NewActivity extends AppCompatActivity {
     }
 
 
-}
+    }
+
