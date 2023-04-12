@@ -31,24 +31,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);//apresenta a activity na tela
 
-        FloatingActionButton fabAddItem = findViewById(R.id.fabAddNewItem);
+        FloatingActionButton fabAddItem = findViewById(R.id.fabAddNewItem);//captura o botao flutuante
 
+        //adicionando o evento de clique ao botao flutuante
         fabAddItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, NewActivity.class);
-                startActivityForResult(i, NEW_ITEM_REQUEST);
+                Intent i = new Intent(MainActivity.this, NewActivity.class);//cria uma intent que abre a NewActivity
+                startActivityForResult(i, NEW_ITEM_REQUEST);//inicia a intent esperando um resultado
             }
         });
 
-        RecyclerView rvItens = findViewById(R.id.rvItens);
+        RecyclerView rvItens = findViewById(R.id.rvItens);//captura o RecyclerView
 
-        myAdapter = new MyAdapter(this, itens);
-        rvItens.setAdapter(myAdapter);
+        myAdapter = new MyAdapter(this, itens);//inicializa o myAdapter
+        rvItens.setAdapter(myAdapter);//define o myAdapter como o adapter de rvItens
 
-        rvItens.setHasFixedSize(true);
+        rvItens.setHasFixedSize(true);//define que o RecycleView tera tamanho fixo
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvItens.setLayoutManager(layoutManager);
@@ -60,13 +61,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
+        //verifica se o codigo de requisicao e igual ao codigo definido
         if(requestCode == NEW_ITEM_REQUEST) {
+            //verifica se o resultado da activty esta correto
             if(resultCode == Activity.RESULT_OK){
-                MyItem myItem = new MyItem();
-                myItem.title = data.getStringExtra("title");
-                myItem.description = data.getStringExtra("description");
-                myItem.photo = data.getData();
-                itens.add(myItem);
+                MyItem myItem = new MyItem();//inicializa um objeto MyItem
+                myItem.title = data.getStringExtra("title");//define o title de myItem como o title extraido da intent
+                myItem.description = data.getStringExtra("description");//define a description de myItem como a description extraida da intent
+                myItem.photo = data.getData();//define a photo de myItem como a foto extraida da intent
+                itens.add(myItem);//adiciona o myItem a lista de itens
                 myAdapter.notifyItemInserted(itens.size()-1);
             }
         }
