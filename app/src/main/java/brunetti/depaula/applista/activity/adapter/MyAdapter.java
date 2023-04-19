@@ -39,7 +39,7 @@ public class MyAdapter extends RecyclerView.Adapter{
 
         View v = holder.itemView;//inicializa a view por meio do holder
         ImageView imvfoto = v.findViewById(R.id.imvfoto);//captura a ImageView
-        imvfoto.setImageURI(myItem.photo);//define a foto como a foto obtida pelo holder
+        imvfoto.setImageBitmap(myItem.photo);//define a foto como a foto obtida pelo holder
 
         TextView titulo = v.findViewById(R.id.titulo);//captura o textView referente ao titulo
         titulo.setText(myItem.title);//define o texto de titulo como o titulo de myItem

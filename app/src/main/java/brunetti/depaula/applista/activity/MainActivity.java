@@ -3,23 +3,28 @@ package brunetti.depaula.applista.activity;
 import androidx.activity.result.ActivityResult;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
 import brunetti.depaula.applista.R;
 import brunetti.depaula.applista.activity.adapter.MyAdapter;
+import brunetti.depaula.applista.activity.model.MainActivityViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView rvItens = findViewById(R.id.rvItens);//captura o RecyclerView
 
+        MainActivityViewModel vm = new ViewModelProvider(this).get(MainActivityViewModel.class);
+        List<MyItem> itens = vm.getItens();
+
         myAdapter = new MyAdapter(this, itens);//inicializa o myAdapter
         rvItens.setAdapter(myAdapter);//define o myAdapter como o adapter de rvItens
 
@@ -68,7 +76,19 @@ public class MainActivity extends AppCompatActivity {
                 MyItem myItem = new MyItem();//inicializa um objeto MyItem
                 myItem.title = data.getStringExtra("title");//define o title de myItem como o title extraido da intent
                 myItem.description = data.getStringExtra("description");//define a description de myItem como a description extraida da intent
-                myItem.photo = data.getData();//define a photo de myItem como a foto extraida da intent
+                Uri selectedPhotoUri = data.getData();
+
+                try{
+                    Bitmap photo = Util.getBitmap(MainActivity.this, selectedPhotoUri, 100, 100);
+                    myItem.photo = photo;
+                }
+                catch (FileNotFoundException e){
+                    e.printStackTrace();
+                }
+
+                MainActivityViewModel vm = new ViewModelProvider(this).get(MainActivityViewModel.class);
+                List<MyItem> itens = vm.getItens();
+
                 itens.add(myItem);//adiciona o myItem a lista de itens
                 myAdapter.notifyItemInserted(itens.size()-1);
             }

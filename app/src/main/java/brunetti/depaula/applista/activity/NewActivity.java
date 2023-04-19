@@ -2,6 +2,7 @@ package brunetti.depaula.applista.activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 
 import brunetti.depaula.applista.R;
+import brunetti.depaula.applista.activity.model.NewItemActivityViewModel;
 
 public class NewActivity extends AppCompatActivity {
 
@@ -26,6 +28,14 @@ public class NewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new);
+
+        NewItemActivityViewModel vm = new ViewModelProvider(this).get(NewItemActivityViewModel.class);
+        Uri selectPhotoLocation = vm.getSelectedPhotoLocation();
+
+        if(selectPhotoLocation != null){
+            ImageView imvfotoPreview = findViewById(R.id.imvfotoPreview);
+            imvfotoPreview.setImageURI((selectPhotoLocation));
+        }
 
         Button btnAddItem = findViewById(R.id.btnAddItem);//capturando o botao de adicionar item
 
@@ -89,6 +99,9 @@ public class NewActivity extends AppCompatActivity {
                     photoSelected = data.getData();//define que a foto selecionada e igual a da intent passada por parâmetro
                     ImageView imvfotoPreview = findViewById(R.id.imvfotoPreview);//captura a ImageView referente a preview da imagem
                     imvfotoPreview.setImageURI(photoSelected);//define que a imagem exbida e a imagem caputarada da intent
+
+                    NewItemActivityViewModel vm = new ViewModelProvider(this).get(NewItemActivityViewModel.class);
+                    vm.setSelectPhotoLocation(photoSelected);
                 }
             }
         }
